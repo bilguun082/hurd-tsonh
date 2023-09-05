@@ -30,24 +30,20 @@ import {
 import Cookies from "js-cookie";
 const frameworks = [
   {
-    value: "next.js",
-    label: "Next.js",
+    value: "Гал тогооны цонх",
+    label: "Гал тогооны цонх",
   },
   {
-    value: "sveltekit",
-    label: "SvelteKit",
+    value: "Жижиг өрөөний цонх",
+    label: "Жижиг өрөөний цонх",
   },
   {
-    value: "nuxt.js",
-    label: "Nuxt.js",
+    value: "Зочны өрөөний цонх",
+    label: "Зочны өрөөний цонх",
   },
   {
-    value: "remix",
-    label: "Remix",
-  },
-  {
-    value: "astro",
-    label: "Astro",
+    value: "Балконы цонх",
+    label: "Балконы цонх",
   },
 ];
 
@@ -120,15 +116,18 @@ export default function Home() {
   const createComplaint = async () => {
     try {
       const apartmentCode = Cookies.get("apartmentCode");
-      const res = await axios.post(`http://localhost:4000/complaint/create`, {
-        apartmentCode: apartmentCode,
-        phoneNumber: data.phoneNumber,
-        email: data.email,
-        windowType: value,
-        picture: downloadURL,
-        date: date,
-        possibilityTime: data.possibilityTime,
-      });
+      const res = await axios.post(
+        `https://hurd-backend.onrender.com/complaint/create`,
+        {
+          apartmentCode: apartmentCode,
+          phoneNumber: data.phoneNumber,
+          email: data.email,
+          windowType: value,
+          picture: downloadURL,
+          date: date,
+          possibilityTime: data.possibilityTime,
+        }
+      );
       console.log(res);
       router.push("/");
     } catch (error) {
@@ -178,10 +177,11 @@ export default function Home() {
                 ? frameworks.find((framework) => framework.value === value)
                     ?.label
                 : "Янзлуулах цонх"}
+              {/* The rest of your button content */}
               <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
             </Button>
           </PopoverTrigger>
-          <PopoverContent className="w-[200px] p-0">
+          <PopoverContent className="w-[250px] p-0">
             <Command>
               <CommandInput placeholder="Search framework..." />
               <CommandEmpty>No framework found.</CommandEmpty>
@@ -189,16 +189,19 @@ export default function Home() {
                 {frameworks.map((framework) => (
                   <CommandItem
                     key={framework.value}
-                    onSelect={(currentValue) => {
-                      setValue(currentValue === value ? "" : currentValue);
+                    onSelect={() => {
+                      setValue(
+                        framework.value === value ? "" : framework.value
+                      );
                       setOpen(false);
                     }}
                   >
                     <Check
-                      className={cn(
-                        "mr-2 h-4 w-4",
-                        value === framework.value ? "opacity-100" : "opacity-0"
-                      )}
+                      className={
+                        value === framework.value
+                          ? "mr-2 h-4 w-4 opacity-100"
+                          : "mr-2 h-4 w-4 opacity-0"
+                      }
                     />
                     {framework.label}
                   </CommandItem>

@@ -30,10 +30,13 @@ export default function Home() {
   //   });
   const LoginFunc = async () => {
     try {
-      const res = await axios.post(`http://localhost:4000/resident/login`, {
-        username: user.username,
-        password: user.password,
-      });
+      const res = await axios.post(
+        `https://hurd-backend.onrender.com/resident/login`,
+        {
+          username: user.username,
+          password: user.password,
+        }
+      );
       if (res.data.match === true) {
         Cookies.set("token", res.data.token);
         // successToast();

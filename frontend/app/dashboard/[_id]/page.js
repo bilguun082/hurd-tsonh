@@ -47,7 +47,7 @@ const ComplaintDetails = () => {
     // console.log(complaintId);
     try {
       const res = await axios.put(
-        `http://localhost:4000/complaint/send/${company}`,
+        `https://hurd-backend.onrender.com/complaint/send/${company}`,
         {
           complaintId: params._id,
         }
@@ -62,7 +62,7 @@ const ComplaintDetails = () => {
     const fetchPost = async () => {
       try {
         const { data } = await axios.get(
-          `http://localhost:4000/complaint/${params._id}`
+          `https://hurd-backend.onrender.com/complaint/${params._id}`
         );
         console.log(data.complaint[0]);
         setComplaint(data.complaint[0]); // Update the complaint state with fetched data
@@ -206,23 +206,5 @@ const ComplaintDetails = () => {
     </div>
   );
 };
-
-// export async function getServerSideProps(context) {
-//   const { id } = context.query;
-
-//   try {
-//     const { data } = await axios.get(`http://localhost:4000/complaint/${id}`);
-//     return {
-//       props: {
-//         complaint: data,
-//       },
-//     };
-//   } catch (error) {
-//     console.error(error);
-//     return {
-//       notFound: true,
-//     };
-//   }
-// }
 
 export default ComplaintDetails;

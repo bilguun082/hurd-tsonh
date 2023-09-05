@@ -47,7 +47,7 @@ export default function Home() {
     console.log(complaintId);
     try {
       const res = await axios.put(
-        `http://localhost:4000/complaint/send/${company}`,
+        `https://hurd-backend.onrender.com/complaint/send/${company}`,
         {
           complaintId: complaintId,
         }
@@ -64,7 +64,9 @@ export default function Home() {
   useEffect(() => {
     const getComplaints = async () => {
       try {
-        const { data } = await axios.get("http://localhost:4000/complaint/");
+        const { data } = await axios.get(
+          "https://hurd-backend.onrender.com/complaint/"
+        );
         setInfo(data);
       } catch (error) {
         console.log(error, "asdfasdf");
@@ -73,7 +75,7 @@ export default function Home() {
     const getComplaintByUser = async () => {
       try {
         const { data } = await axios.get(
-          `http://localhost:4000/complaint/company/${userData}`
+          `https://hurd-backend.onrender.com/complaint/company/${userData}`
         );
         setInfo(data.complaints);
         // console.log(data);
