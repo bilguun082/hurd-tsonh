@@ -31,17 +31,20 @@ export default function Home() {
       const apartment = Cookies.get("apartment");
       const floor = Cookies.get("floor");
       const number = Cookies.get("number");
-      const res = await axios.post(`http://localhost:4000/complaint/create`, {
-        apartmentCode: apartment + floor + number,
-        firstPhoneNumber: data.firstPhoneNumber,
-        secondPhoneNumber: data.secondPhoneNumber,
-        email: data.email,
-        windowType: value,
-        comment: data.comment,
-        picture: downloadUrls,
-        date: date,
-        possibilityTime: data.possibilityTime,
-      });
+      const res = await axios.post(
+        `https://hurd-backend.onrender.com/complaint/create`,
+        {
+          apartmentCode: apartment + floor + number,
+          firstPhoneNumber: data.firstPhoneNumber,
+          secondPhoneNumber: data.secondPhoneNumber,
+          email: data.email,
+          windowType: value,
+          comment: data.comment,
+          picture: downloadUrls,
+          date: date,
+          possibilityTime: data.possibilityTime,
+        }
+      );
       console.log(res);
       router.push("/");
     } catch (error) {
@@ -76,8 +79,8 @@ export default function Home() {
           }}
         />
         <p className="mt-5 mb-5">
-          Цахим хаягаа бичнэ үү. "Бид таны цонхонд засвар үйлчилгээ хийсэний
-          дараа танд майл явуулах болно."
+          Цахим хаягаа бичнэ үү. Бид таны цонхонд засвар үйлчилгээ хийсэний
+          дараа танд майл явуулах болно.
         </p>
         <Input
           placeholder="Email хаяг..."
