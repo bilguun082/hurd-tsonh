@@ -56,7 +56,6 @@ export default function Home() {
           e.preventDefault();
         }}
       >
-        {/* Phone Number */}
         <p className="mt-5 mb-5">Дугаараа бичнэ үү.</p>
         <Input
           placeholder="Утасны дугаар..."
@@ -76,7 +75,6 @@ export default function Home() {
             setData({ ...data, secondPhoneNumber: e.target.value });
           }}
         />
-        {/* Email */}
         <p className="mt-5 mb-5">
           Цахим хаягаа бичнэ үү. "Бид таны цонхонд засвар үйлчилгээ хийсэний
           дараа танд майл явуулах болно."
@@ -90,15 +88,12 @@ export default function Home() {
             setData({ ...data, email: e.target.value });
           }}
         />
-        {/* Window Type */}
         <p className="mt-5 mb-5">Янзлуулах цонхоо сонгоно уу.</p>
         <WindowType value={value} onChange={(newValue) => setValue(newValue)} />
-        {/* Comment */}
         <div>
           <p className="mt-5 mb-5">Яаж янзлуулахаа тодорхой бичнэ үү.</p>
 
           <Textarea
-            // label="Яаж янзлуулахаа тодорхой бичнэ үү."
             value={data.comment}
             onChange={(e) => {
               setData({ ...data, comment: e.target.value });
@@ -108,7 +103,6 @@ export default function Home() {
             className="max-w-xs mt-5"
           />
         </div>
-        {/* Pictures */}
         <p className="mt-5 mb-5">Зураг оруулна уу.</p>
         <FileUploadSection
           selectedImages={selectedImages}
@@ -116,10 +110,8 @@ export default function Home() {
           downloadUrls={downloadUrls}
           setDownloadUrls={setDownloadUrls}
         />
-        {/* Date */}
         <p className="mt-5 mb-5">Засвар хийлгэх боломжтой өдрөө сонгоно уу.</p>
         <DatePicker selectedDate={date} onSelect={setDate} />
-        {/* Time */}
         <p className="mt-5 mb-5">Янзлуулах боломжтой цагаа хэлнэ үү.</p>
         <Input
           placeholder="Боломжит цаг..."
