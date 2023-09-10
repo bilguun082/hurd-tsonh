@@ -31,7 +31,7 @@ export default function Home() {
             router.push("/complaints");
           }}
         >
-          Санал гомдол
+          Засвар Үйлчилгээ
         </Button>
       </div>
       <div className="max-w-sm bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700 flex justify-center flex-col">
@@ -58,7 +58,7 @@ export default function Home() {
             router.push("/rate");
           }}
         >
-          Сэтгэл ханамж
+          Санал Хүсэлт
         </Button>
       </div>
     </div>

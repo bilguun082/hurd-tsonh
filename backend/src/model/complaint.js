@@ -4,10 +4,12 @@ const Schema = mongoose.Schema;
 
 const ComplaintSchema = new Schema({
   apartmentCode: { type: String },
-  phoneNumber: { type: Number },
+  firstPhoneNumber: { type: Number },
+  secondPhoneNumber: { type: Number },
   email: { type: String },
   windowType: { type: String },
-  picture: { type: String },
+  comment: { type: String },
+  picture: { type: Array },
   date: { type: Date },
   possibilityTime: { type: String },
   company: { type: String, default: "" },
