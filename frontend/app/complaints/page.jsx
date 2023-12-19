@@ -57,11 +57,9 @@ export default function Home() {
   };
 
   return (
-    <div className="w-screen h-screen flex flex-col justify-center items-center mt-[200px] pl-5 pr-5">
-      <Toaster richColors />
+    <div className="w-screen flex flex-col justify-center items-center mt-[50px] pl-5 pr-5">
       <form
         onSubmit={(e) => {
-          ``;
           e.preventDefault();
         }}
       >
@@ -132,27 +130,15 @@ export default function Home() {
         />
         <Button
           onClick={() => {
-            if (
-              downloadUrls ||
-              data.email ||
-              date ||
-              data.firstPhoneNumber ||
-              data.secondPhoneNumber ||
-              value ||
-              data.possibilityTime ||
-              data.comment === undefined
-            ) {
-              toast.error("Мэдээллээ бүрэн бөглөнө үү.");
-            } else {
-              createComplaint();
-              setIsLoading(true);
-            }
+            createComplaint();
+            setIsLoading(true);
           }}
           isLoading={isLoading}
         >
           Илгээх
         </Button>
       </form>
+      <Toaster richColors />
     </div>
   );
 }
