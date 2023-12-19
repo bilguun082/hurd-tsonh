@@ -23,7 +23,7 @@ export const AuthProvider = ({ children }) => {
     const getUser = async () => {
       try {
         const { data } = await axios.get(
-          "http://localhost:4000/resident/check"
+          "https://hurd-tsonh.vercel.app/resident/check"
         );
         setUserData(data.username);
         setRole(data.role);

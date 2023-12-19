@@ -32,17 +32,20 @@ export default function Home() {
       const apartment = Cookies.get("apartment");
       const floor = Cookies.get("floor");
       const number = Cookies.get("number");
-      const res = await axios.post(`http://localhost:4000/complaint/create`, {
-        apartmentCode: apartment + floor + number,
-        firstPhoneNumber: data.firstPhoneNumber,
-        secondPhoneNumber: data.secondPhoneNumber,
-        email: data.email,
-        windowType: value,
-        comment: data.comment,
-        picture: downloadUrls,
-        date: date,
-        possibilityTime: data.possibilityTime,
-      });
+      const res = await axios.post(
+        `https://hurd-tsonh.vercel.app/complaint/create`,
+        {
+          apartmentCode: apartment + floor + number,
+          firstPhoneNumber: data.firstPhoneNumber,
+          secondPhoneNumber: data.secondPhoneNumber,
+          email: data.email,
+          windowType: value,
+          comment: data.comment,
+          picture: downloadUrls,
+          date: date,
+          possibilityTime: data.possibilityTime,
+        }
+      );
       toast.success("Хүсэлт амжилттай илгээгдлээ");
       setIsLoading(false);
       console.log(res);
@@ -54,7 +57,7 @@ export default function Home() {
   };
 
   return (
-    <div className="w-screen h-screen flex flex-col justify-center items-center">
+    <div className="w-screen h-screen flex flex-col justify-center items-center mt-[200px] pl-5 pr-5">
       <Toaster richColors />
       <form
         onSubmit={(e) => {

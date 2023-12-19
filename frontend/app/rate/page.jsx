@@ -20,7 +20,7 @@ export default function Home() {
 
   const createRate = async () => {
     try {
-      const res = axios.post("http://localhost:4000/rate/", {
+      const res = axios.post("https://hurd-tsonh.vercel.app/rate/", {
         rateForWindow: first,
         rateForService: second,
         feedback,

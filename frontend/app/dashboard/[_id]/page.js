@@ -64,11 +64,14 @@ const ComplaintDetails = () => {
 
   const sendEmail = async () => {
     try {
-      const res = await axios.post("http://localhost:4000/complaint/sendmail", {
-        text: `https://hurd-tsonh.vercel.app/dashboard${params._id}`,
-        user: "dulamerdenet@gmail.com",
-        sender: "bilguune060829@gmail.com",
-      });
+      const res = await axios.post(
+        "https://hurd-tsonh.vercel.app/complaint/sendmail",
+        {
+          text: `https://hurd-tsonh.vercel.app/dashboard${params._id}`,
+          user: "dulamerdenet@gmail.com",
+          sender: "bilguune060829@gmail.com",
+        }
+      );
       toast.success("Таны хүсэлт амжилттай илгээгдлээ.");
       console.log(res);
     } catch (error) {
@@ -80,13 +83,13 @@ const ComplaintDetails = () => {
   const setAsDone = async () => {
     try {
       const res = await axios.put(
-        `http://localhost:4000/complaint/send/process/${params._id}`,
+        `https://hurd-tsonh.vercel.app/complaint/send/process/${params._id}`,
         {
           process: "done",
         }
       );
       const response = await axios.post(
-        "http://localhost:4000/complaint/sendmail",
+        "https://hurd-tsonh.vercel.app/complaint/sendmail",
         {
           text: `https://hurd-tsonh.vercel.app/dashboard${params._id}`,
           user: "dulamsuren.tsa@gmail.com",

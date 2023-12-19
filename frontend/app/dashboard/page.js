@@ -45,11 +45,14 @@ export default function Home() {
 
   const sendEmail = async () => {
     try {
-      const res = await axios.post("http://localhost:4000/complaint/sendmail", {
-        text: `https://hurd-tsonh.vercel.app/dashboard`,
-        user: "dulamerdenet@gmail.com",
-        sender: "bilguune060829@gmail.com",
-      });
+      const res = await axios.post(
+        "https://hurd-tsonh.vercel.app/complaint/sendmail",
+        {
+          text: `https://hurd-tsonh.vercel.app/dashboard`,
+          user: "dulamerdenet@gmail.com",
+          sender: "bilguune060829@gmail.com",
+        }
+      );
       console.log(res);
       toast.success("Таны хүсэлт амжилттай илгээгдлээ.");
     } catch (error) {
@@ -83,7 +86,6 @@ export default function Home() {
     if (role === null) {
       toast.error("Та эхлээд нэвтэрнэ үү!.");
       router.push("/organization");
-      s;
       return;
     }
     const getComplaints = async () => {
