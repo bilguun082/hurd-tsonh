@@ -1,6 +1,6 @@
 "use client";
 
-import { Button } from "@/components/ui/button";
+import { Button } from "@nextui-org/react";
 import WindowType from "@/components/windowType";
 import { Input } from "@/components/ui/input";
 import { useState } from "react";
@@ -10,6 +10,7 @@ import { Textarea } from "@nextui-org/react";
 import DatePicker from "@/components/date";
 import Cookies from "js-cookie";
 import FileUploadSection from "@/components/uploadImage";
+import { toast, Toaster } from "sonner";
 
 export default function Home() {
   const [date, setDate] = useState();
@@ -23,7 +24,7 @@ export default function Home() {
   });
   const [selectedImages, setSelectedImages] = useState([]);
   const [downloadUrls, setDownloadUrls] = useState([]);
-
+  const [isLoading, setIsLoading] = useState(false);
   const [value, setValue] = useState("");
 
   const createComplaint = async () => {
@@ -31,31 +32,33 @@ export default function Home() {
       const apartment = Cookies.get("apartment");
       const floor = Cookies.get("floor");
       const number = Cookies.get("number");
-      const res = await axios.post(
-        `https://hurd-backend.onrender.com/complaint/create`,
-        {
-          apartmentCode: apartment + floor + number,
-          firstPhoneNumber: data.firstPhoneNumber,
-          secondPhoneNumber: data.secondPhoneNumber,
-          email: data.email,
-          windowType: value,
-          comment: data.comment,
-          picture: downloadUrls,
-          date: date,
-          possibilityTime: data.possibilityTime,
-        }
-      );
+      const res = await axios.post(`http://localhost:4000/complaint/create`, {
+        apartmentCode: apartment + floor + number,
+        firstPhoneNumber: data.firstPhoneNumber,
+        secondPhoneNumber: data.secondPhoneNumber,
+        email: data.email,
+        windowType: value,
+        comment: data.comment,
+        picture: downloadUrls,
+        date: date,
+        possibilityTime: data.possibilityTime,
+      });
+      toast.success("Хүсэлт амжилттай илгээгдлээ");
+      setIsLoading(false);
       console.log(res);
       router.push("/");
     } catch (error) {
+      toast.error("Хүсэлт илгээхэд алдаа гарлаа");
       console.log(error.message);
     }
   };
 
   return (
-    <div className="w-screen h-3/4 flex flex-col justify-center items-center">
+    <div className="w-screen h-screen flex flex-col justify-center items-center">
+      <Toaster richColors />
       <form
         onSubmit={(e) => {
+          ``;
           e.preventDefault();
         }}
       >
@@ -126,8 +129,23 @@ export default function Home() {
         />
         <Button
           onClick={() => {
-            createComplaint();
+            if (
+              downloadUrls ||
+              data.email ||
+              date ||
+              data.firstPhoneNumber ||
+              data.secondPhoneNumber ||
+              value ||
+              data.possibilityTime ||
+              data.comment === undefined
+            ) {
+              toast.error("Мэдээллээ бүрэн бөглөнө үү.");
+            } else {
+              createComplaint();
+              setIsLoading(true);
+            }
           }}
+          isLoading={isLoading}
         >
           Илгээх
         </Button>

@@ -4,6 +4,7 @@ import { useAuth } from "@/context/auth-context";
 import { useRouter } from "next/navigation"; // Correct import
 import { useEffect, useState } from "react";
 import axios from "axios";
+import { toast, Toaster } from "sonner";
 import { Check, ChevronsUpDown } from "lucide-react";
 import {
   Command,
@@ -42,6 +43,21 @@ export default function Home() {
   const [company, setCompany] = useState("");
   const [complaintId, setComplaintId] = useState("");
 
+  const sendEmail = async () => {
+    try {
+      const res = await axios.post("http://localhost:4000/complaint/sendmail", {
+        text: `https://hurd-tsonh.vercel.app/dashboard`,
+        user: "dulamerdenet@gmail.com",
+        sender: "bilguune060829@gmail.com",
+      });
+      console.log(res);
+      toast.success("Таны хүсэлт амжилттай илгээгдлээ.");
+    } catch (error) {
+      toast.error("Таны хүсэлтийг илгээхэд алдаа гарлаа.");
+      console.log(error);
+    }
+  };
+
   const sendPostToCompanies = async () => {
     console.log(company);
     console.log(complaintId);
@@ -53,7 +69,9 @@ export default function Home() {
         }
       );
       console.log(res);
+      toast.success("Таны хүсэлт амжилттай илгээгдлээ.");
     } catch (error) {
+      toast.error("Таны хүсэлтийг илгээхэд алдаа гарлаа.");
       console.log(error);
     }
   };
@@ -62,6 +80,12 @@ export default function Home() {
   const router = useRouter();
 
   useEffect(() => {
+    if (role === null) {
+      toast.error("Та эхлээд нэвтэрнэ үү!.");
+      router.push("/organization");
+      s;
+      return;
+    }
     const getComplaints = async () => {
       try {
         const { data } = await axios.get(
@@ -92,8 +116,9 @@ export default function Home() {
 
   return (
     <div>
+      <Toaster richColors />
       {role === "admin" ? (
-        <div className="max-screen h-full flex flex-row justify-center md:justify-normal flex-wrap gap-10 p-5">
+        <div className="max-screen h-full flex flex-row justify-center md:justify-normal flex-wrap gap-10 pl-20 pt-10 pr-20">
           {info?.map((e, index) => (
             <div
               key={index}
@@ -111,7 +136,7 @@ export default function Home() {
               </div>
               <div className="p-6 flex flex-row justify-between">
                 <div onClick={() => router.push(`/dashboard/${e._id}`)}>
-                  <h1>Title</h1>
+                  <h1>Тайлбар</h1>
                   <p>{e?.apartmentCode}</p>
                   <p>{e?.windowType}</p>
                 </div>
@@ -160,7 +185,7 @@ export default function Home() {
                               ? frameworks.find(
                                   (framework) => framework.value === value
                                 )?.label
-                              : "Select Framework"}
+                              : "Явуулах компани"}
                             <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
                           </Button>
                         </PopoverTrigger>
@@ -217,6 +242,7 @@ export default function Home() {
                           setShowModal(false);
                           setValue("");
                           sendPostToCompanies();
+                          sendEmail();
                         }}
                       >
                         Send

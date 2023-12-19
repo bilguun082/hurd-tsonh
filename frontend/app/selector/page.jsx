@@ -1,11 +1,16 @@
 "use client";
-import { Button } from "@/components/ui/button";
+import { Button } from "@nextui-org/react";
 import { useRouter } from "next/navigation";
+import { useState } from "react";
+import { toast, Toaster } from "sonner";
 
 export default function Home() {
+  const [isLoading, setIsLoading] = useState(false);
+  const [loading, setLoading] = useState(false);
   const router = useRouter();
   return (
     <div className="max-screen h-full flex flex-col items-center justify-center gap-10">
+      <Toaster richColors />
       <div className="max-w-sm bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700 flex justify-center flex-col">
         <a href="#">
           <svg
@@ -28,8 +33,10 @@ export default function Home() {
         </a>
         <Button
           onClick={() => {
+            setLoading(true);
             router.push("/complaints");
           }}
+          isLoading={loading}
         >
           Засвар Үйлчилгээ
         </Button>
@@ -55,8 +62,10 @@ export default function Home() {
         </a>
         <Button
           onClick={() => {
+            setIsLoading(true);
             router.push("/rate");
           }}
+          isLoading={isLoading}
         >
           Санал Хүсэлт
         </Button>

@@ -1,6 +1,6 @@
 "use client";
 // import PhoneAuth from "@/components/phoneAuth";
-import { Button } from "@/components/ui/button";
+import { Button } from "@nextui-org/button";
 // import { Input } from "@/components/ui/input";
 import { useState } from "react";
 import { useEffect } from "react";
@@ -46,6 +46,7 @@ export default function Home() {
     "25",
   ];
   const [numbers, setNumbers] = useState(["01", "02", "03", "04", "05", "06"]);
+  const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
     const frameworkTypeChecker = () => {
@@ -71,6 +72,7 @@ export default function Home() {
           <form
             onSubmit={(e) => {
               e.preventDefault();
+              console.log("fasdfasf");
               Cookies.set("apartment", data.apartment);
               Cookies.set("floor", data.floor);
               Cookies.set("number", data.number);
@@ -118,7 +120,18 @@ export default function Home() {
 
             {/* <p>Code Entered - {code}</p> */}
 
-            <Button className="btn btn-primary">Цааш явах</Button>
+            <Button
+              className="btn btn-primary"
+              onClick={() => {
+                console.log("fasdfasf");
+                Cookies.set("apartment", data.apartment);
+                Cookies.set("floor", data.floor);
+                Cookies.set("number", data.number);
+                router.push("/selector");
+              }}
+            >
+              Цааш явах
+            </Button>
           </form>
         </div>
       </div>

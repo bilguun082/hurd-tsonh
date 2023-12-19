@@ -1,85 +1,135 @@
 "use client";
 import { useState } from "react";
-import { Button } from "@/components/ui/button";
-import Image from "next/image";
-import { ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
-
-import { storage } from "../firebase.config";
+import { Checkbox } from "@nextui-org/react";
+import { Textarea } from "@nextui-org/react";
+import { Button } from "@nextui-org/react";
+import axios from "axios";
+import { toast, Toaster } from "sonner";
+import { setSeconds } from "date-fns";
 
 export default function Home() {
-  const [selectedImages, setSelectedImages] = useState([]);
-  const [uploadProgress, setUploadProgress] = useState(0);
-  const [downloadUrls, setDownloadUrls] = useState([]);
+  const [isChecked, setIsChecked] = useState(false);
+  const [secondChecked, setSecondChecked] = useState(false);
+  const [thirdChecked, setThirdChecked] = useState(false);
+  const [fourthChecked, setFourthChecked] = useState(false);
+  const [fifthChecked, setFifthChecked] = useState(false);
+  const [sixthChecked, setSixthChecked] = useState(false);
+  const [feedback, setFeedback] = useState("");
+  const [first, setFirst] = useState("");
+  const [second, setSecond] = useState("");
 
-  const handleImageChange = (e) => {
-    const files = e.target.files;
-    setSelectedImages(files);
-    // console.log(selectedImages);
-  };
-
-  const handleUpload = async () => {
-    // console.log(selectedImages);
+  const createRate = async () => {
     try {
-      for (const image of selectedImages) {
-        const storageRef = ref(storage, `images/${image.name}`);
-        const uploadTask = uploadBytesResumable(storageRef, image);
-
-        uploadTask.on(
-          "state_changed",
-          (snapshot) => {
-            const progress =
-              (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
-            setUploadProgress(progress);
-
-            switch (snapshot.state) {
-              case "paused":
-                console.log("Upload is paused");
-                break;
-              case "running":
-                console.log("Upload is running");
-                break;
-            }
-          },
-          (error) => {
-            message.error(error.message);
-          },
-          () => {
-            getDownloadURL(uploadTask.snapshot.ref).then((url) => {
-              //url is download url of file
-              // setDownloadUrls(url);
-              setDownloadUrls((prevUrls) => [...prevUrls, url]);
-            });
-          }
-        );
-      }
-
-      Promise.all(uploadPromises).then((downloadUrls) => {
-        // Do something with the download URLs (e.g., save to a database)
-        console.log("Uploaded URLs:", downloadUrls);
+      const res = axios.post("http://localhost:4000/rate/", {
+        rateForWindow: first,
+        rateForService: second,
+        feedback,
       });
+      setFeedback("");
+      toast.success("Таны хүсэлт амжилттай илгээгдлээ.");
+      setIsChecked(false);
+      setSecondChecked(false);
+      setThirdChecked(false);
+      setFourthChecked(false);
+      setFifthChecked(false);
+      setSixthChecked(false);
+      console.log(res);
     } catch (error) {
-      console.error(error);
+      toast.error("Таны хүсэлтийг илгээхэд алдаа гарлаа!.");
+      console.log(error);
     }
   };
-  // console.log(downloadUrls);
+
   return (
-    <div className="w-full h-3/4 flex items-center justify-center flex-col">
-      <input
-        type="file"
-        accept="image/*"
-        multiple
-        onChange={handleImageChange}
-      />
-      <button onClick={handleUpload}>Upload</button>
-      <progress value={uploadProgress} max="100"></progress>
-      {downloadUrls?.map((url, i) => (
-        <img
-          key={i}
-          style={{ width: "500px", marginBottom: "10px" }}
-          src={url}
-          alt="firebase-image"
+    <div className="w-full h-screen flex items-center p-10 justify-start flex-col">
+      <Toaster richColors />
+      <div className="w-[400px] h-full flex flex-col gap-5 items-start">
+        <p>Бидний угсарсан цонхны ажилд үнэлгээ өгнө үү.</p>
+        <div className="w-[300px] flex justify-between">
+          <Checkbox
+            size="md"
+            isSelected={isChecked}
+            onValueChange={setIsChecked}
+            onClick={() => {
+              setFirst("сайн");
+            }}
+          >
+            Сайн
+          </Checkbox>
+          <Checkbox
+            size="md"
+            isSelected={secondChecked}
+            onValueChange={setSecondChecked}
+            onClick={() => {
+              setFirst("дунд");
+            }}
+          >
+            Дунд
+          </Checkbox>
+          <Checkbox
+            size="md"
+            isSelected={thirdChecked}
+            onValueChange={setThirdChecked}
+            onClick={() => {
+              setFirst("муу");
+            }}
+          >
+            Муу
+          </Checkbox>
+        </div>
+        <p>Бидний хийсэн засвар үйлчилгээнд сэтгэл хангалуун байна уу?</p>
+        <div className="w-[300px] flex justify-between">
+          <Checkbox
+            size="md"
+            isSelected={fourthChecked}
+            onValueChange={setFourthChecked}
+            onClick={() => {
+              setSecond("сайн");
+            }}
+          >
+            Сайн
+          </Checkbox>
+          <Checkbox
+            size="md"
+            isSelected={fifthChecked}
+            onValueChange={setFifthChecked}
+            onClick={() => {
+              setSecond("дунд");
+            }}
+          >
+            Дунд
+          </Checkbox>
+          <Checkbox
+            size="md"
+            isSelected={sixthChecked}
+            onValueChange={setSixthChecked}
+            onClick={() => {
+              setSecond("муу");
+            }}
+          >
+            Муу
+          </Checkbox>
+        </div>
+        <p>Өөр зүйл хэлэх хүсэлтэй байвал доор бичиж үлдээнэ үү.</p>
+        <Textarea
+          labelPlacement="outside"
+          placeholder="Энд бичнэ үү."
+          className="max-w-xs"
+          value={feedback}
+          onChange={(e) => {
+            setFeedback(e.target.value);
+            console.log(feedback);
+          }}
         />
-      ))}
+        <Button
+          className="btn btn-primary"
+          onClick={() => {
+            createRate();
+          }}
+        >
+          send
+        </Button>
+      </div>
     </div>
   );
 }

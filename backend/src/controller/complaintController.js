@@ -60,6 +60,25 @@ exports.sendComplaintToCompany = async (req, res) => {
   }
 };
 
+exports.setProcessAsDone = async (req, res) => {
+  const id = req.params.id;
+  const process = req.body.process;
+  try {
+    const complaint = await Complaints.findById(id);
+    if (!complaint) {
+      return res.status(404).json({ error: "Complaint not found." });
+    }
+
+    // Update the companyId field
+    complaint.process = process;
+    await complaint.save();
+
+    res.status(200).json({ message: "Company assigned to complaint." });
+  } catch (error) {
+    res.status(500).json({ error: "Error assigning company." });
+  }
+};
+
 exports.getComplaintByCompanyId = async (req, res) => {
   const company = req.params.company;
   try {
