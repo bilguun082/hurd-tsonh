@@ -33,7 +33,7 @@ export default function Home() {
       const floor = Cookies.get("floor");
       const number = Cookies.get("number");
       const res = await axios.post(
-        `https://hurd-tsonh.vercel.app/complaint/create`,
+        `https://hurd-backend.onrender.com/complaint/create`,
         {
           apartmentCode: apartment + floor + number,
           firstPhoneNumber: data.firstPhoneNumber,
@@ -130,8 +130,21 @@ export default function Home() {
         />
         <Button
           onClick={() => {
+            // if (
+            //   downloadUrls ||
+            //   data.email ||
+            //   date ||
+            //   data.firstPhoneNumber ||
+            //   data.secondPhoneNumber ||
+            //   value ||
+            //   data.possibilityTime ||
+            //   data.comment === undefined
+            // ) {
+            //   toast.error("Мэдээллээ бүрэн бөглөнө үү.");
+            // } else {
             createComplaint();
             setIsLoading(true);
+            // }
           }}
           isLoading={isLoading}
         >
