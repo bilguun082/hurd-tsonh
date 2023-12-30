@@ -1,5 +1,5 @@
 "use client";
-import { Button } from "@/components/ui/button";
+import { Button } from "@nextui-org/react";
 import Image from "next/image";
 import { Input } from "@/components/ui/input";
 import { useState } from "react";
@@ -9,25 +9,13 @@ import axios from "axios";
 import { useAuth } from "@/context/auth-context";
 
 export default function Home() {
+  const [isLoading, setIsLoading] = useState(false);
   const [user, setUser] = useState({
     username: "",
     password: "",
   });
   const { setUserData, setRole, userData, role } = useAuth();
-  // const { toast } = useToast();
   const router = useRouter();
-  // const successToast = () =>
-  //   toast({
-  //     variant: "default",
-  //     title: "Амжиллтай нэвтэрлээ.",
-  //     description: "200",
-  //   });
-  // const failureToast = () =>
-  //   toast({
-  //     variant: "destructive",
-  //     title: "Амжиллтай нэвтэрлээ.",
-  //     description: "200",
-  //   });
   const LoginFunc = async () => {
     try {
       const res = await axios.post(
@@ -43,6 +31,7 @@ export default function Home() {
         console.log(res);
         setUserData(res.data.username);
         setRole(res.data.role);
+        setIsLoading(false);
         setTimeout(() => {
           router.push("/dashboard");
         }, 1000);
@@ -64,6 +53,7 @@ export default function Home() {
               class="space-y-4 md:space-y-6"
               onSubmit={(e) => {
                 e.preventDefault();
+                setIsLoading(true);
                 LoginFunc();
               }}
             >
@@ -134,7 +124,9 @@ export default function Home() {
                   Forgot password?
                 </a>
               </div>
-              <Button type="submit">Sign in</Button>
+              <Button type="submit" isLoading={isLoading}>
+                Sign in
+              </Button>
             </form>
           </div>
         </div>

@@ -72,7 +72,6 @@ export default function Home() {
           <form
             onSubmit={(e) => {
               e.preventDefault();
-              console.log("fasdfasf");
               Cookies.set("apartment", data.apartment);
               Cookies.set("floor", data.floor);
               Cookies.set("number", data.number);
@@ -123,7 +122,6 @@ export default function Home() {
             <Button
               className="btn btn-primary"
               onClick={() => {
-                console.log("fasdfasf");
                 Cookies.set("apartment", data.apartment);
                 Cookies.set("floor", data.floor);
                 Cookies.set("number", data.number);

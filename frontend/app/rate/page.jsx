@@ -6,6 +6,7 @@ import { Button } from "@nextui-org/react";
 import axios from "axios";
 import { toast, Toaster } from "sonner";
 import { setSeconds } from "date-fns";
+import { useRouter } from "next/navigation";
 
 export default function Home() {
   const [isChecked, setIsChecked] = useState(false);
@@ -17,10 +18,13 @@ export default function Home() {
   const [feedback, setFeedback] = useState("");
   const [first, setFirst] = useState("");
   const [second, setSecond] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
+
+  const router = useRouter();
 
   const createRate = async () => {
     try {
-      const res = axios.post("https://hurd-tsonh.vercel.app/rate/", {
+      const res = axios.post("https://hurd-backend.onrender.com/rate/", {
         rateForWindow: first,
         rateForService: second,
         feedback,
@@ -33,6 +37,11 @@ export default function Home() {
       setFourthChecked(false);
       setFifthChecked(false);
       setSixthChecked(false);
+      setIsLoading(false);
+      setTimeout(() => {
+        router.push("/");
+      }, 1000);
+
       console.log(res);
     } catch (error) {
       toast.error("Таны хүсэлтийг илгээхэд алдаа гарлаа!.");
@@ -118,16 +127,17 @@ export default function Home() {
           value={feedback}
           onChange={(e) => {
             setFeedback(e.target.value);
-            console.log(feedback);
           }}
         />
         <Button
           className="btn btn-primary"
           onClick={() => {
+            setIsLoading(true);
             createRate();
           }}
+          isLoading={isLoading}
         >
-          send
+          Явуулах
         </Button>
       </div>
     </div>

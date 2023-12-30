@@ -2,7 +2,7 @@
 import React from "react";
 import { useState } from "react";
 import { Input } from "./ui/input";
-import { Button } from "./ui/button"; // Replace with your button library
+import { Button } from "@nextui-org/react"; // Replace with your button library
 import { Progress } from "@nextui-org/react"; // Import your Progress component
 import { ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
 import { storage } from "@/app/firebase.config";
@@ -19,6 +19,8 @@ export default function FileUploadSection({
     setSelectedImages(files);
     // console.log(selectedImages);
   };
+
+  const [isloading, setIsLoading] = useState(false);
 
   const handleUpload = async () => {
     console.log(selectedImages);
@@ -50,6 +52,7 @@ export default function FileUploadSection({
             getDownloadURL(uploadTask.snapshot.ref).then((url) => {
               //url is download url of file
               // setDownloadUrls(url);
+              setIsLoading(false);
               setDownloadUrls((prevUrls) => [...prevUrls, url]);
             });
           }
@@ -91,7 +94,11 @@ export default function FileUploadSection({
               <Button
                 // loading={isUploading}
                 type="primary"
-                onClick={handleUpload}
+                onClick={() => {
+                  handleUpload();
+                  setIsLoading(true);
+                }}
+                isLoading={isloading}
               >
                 Upload
               </Button>

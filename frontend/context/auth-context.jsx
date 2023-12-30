@@ -23,7 +23,7 @@ export const AuthProvider = ({ children }) => {
     const getUser = async () => {
       try {
         const { data } = await axios.get(
-          "https://hurd-tsonh.vercel.app/resident/check"
+          "https://hurd-backend.onrender.com/resident/check"
         );
         setUserData(data.username);
         setRole(data.role);

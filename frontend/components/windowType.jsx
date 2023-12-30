@@ -20,7 +20,7 @@ import Cookies from "js-cookie";
 
 let frameworks = [];
 
-export const WindowType = ({ value, onChange }) => {
+export const WindowType = ({ value, handleChange }) => {
   useEffect(() => {
     const frameworkTypeChecker = () => {
       const apartment = Cookies.get("apartment");
@@ -140,7 +140,6 @@ export const WindowType = ({ value, onChange }) => {
         ];
       }
     };
-    console.log(frameworks);
     frameworkTypeChecker();
   }, []);
   const [open, setOpen] = React.useState(false);
@@ -170,7 +169,8 @@ export const WindowType = ({ value, onChange }) => {
               <CommandItem
                 key={framework.value}
                 onSelect={() => {
-                  onChange(framework.value === value ? "" : framework.value);
+                  let name = framework.value === value ? "" : framework.value;
+                  handleChange("windowType")(name); // Update the 'windowType' field value using handleChange
                   setOpen(false);
                 }}
               >
